@@ -1,59 +1,125 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TugasWeb-P9-LaravelSetup
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Tugas Rutin 9 - Setup Laravel. Project ini isinya instalasi Laravel, koneksi ke database MySQL, dan beberapa halaman sederhana pakai route, controller, model, dan Blade view.
 
-## About Laravel
+- Laravel 12
+- PHP 8.2 (XAMPP)
+- MySQL / MariaDB (XAMPP)
+- Tailwind CSS (CDN)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Screenshot
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Welcome page bawaan Laravel waktu pertama kali `php artisan serve`:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+![Welcome default](screenshots/01-welcome-default.png)
 
-## Learning Laravel
+Halaman setelah dibuat:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+| Home | About |
+|---|---|
+| ![Home](screenshots/02-home.png) | ![About](screenshots/03-about.png) |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Contact | Hello |
+|---|---|
+| ![Contact](screenshots/04-contact.png) | ![Hello](screenshots/05-hello.png) |
 
-## Laravel Sponsors
+## Langkah Install
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 1. Install Composer
+Download Composer di https://getcomposer.org/download/ lalu install. Cek apakah sudah berhasil:
+```bash
+composer --version
+```
 
-### Premium Partners
+### 2. Buat project Laravel
+```bash
+composer create-project laravel/laravel TugasWeb-P9-LaravelSetup
+cd TugasWeb-P9-LaravelSetup
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 3. Buat database
+Nyalakan Apache & MySQL di XAMPP, buka `http://localhost/phpmyadmin`, lalu buat database baru dengan nama `db_tr9_laravel`.
 
-## Contributing
+### 4. Konfigurasi `.env`
+Default Laravel 12 pakai sqlite, jadi diganti ke mysql:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=db_tr9_laravel
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 5. Jalankan migration
+```bash
+php artisan migrate
+```
 
-## Code of Conduct
+### 6. Jalankan server
+```bash
+php artisan serve
+```
+Buka `http://127.0.0.1:8000` di browser.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Kalau clone dari GitHub
+```bash
+git clone https://github.com/graceyla/TugasWeb-P9-LaravelSetup.git
+cd TugasWeb-P9-LaravelSetup
+composer install
+copy .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
+(jangan lupa buat database `db_tr9_laravel` dulu di phpMyAdmin)
 
-## Security Vulnerabilities
+## Route
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Method | URL | Keterangan |
+|---|---|---|
+| GET | `/` | Home (welcome page, styling pakai Tailwind CDN) |
+| GET | `/about` | About, data array dikirim dari route ke view |
+| GET | `/contact` | Form contact + daftar pesan terbaru dari database |
+| POST | `/contact` | Simpan pesan (pakai validasi) |
+| GET | `/hello/{nama}` | Bonus: route parameter, contoh `/hello/Chintya` |
 
-## License
+## Artisan yang dipakai
+```bash
+php artisan make:controller PageController
+php artisan make:model Contact -m
+php artisan migrate
+```
+`make:model Contact -m` bikin model `Contact` sekalian file migration untuk tabel `contacts` (kolom nama, email, pesan).
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Struktur Folder
+
+```
+TugasWeb-P9-LaravelSetup/
+├── app/
+│   ├── Http/Controllers/
+│   │   └── PageController.php   -> controller untuk home, contact, hello
+│   └── Models/
+│       └── Contact.php          -> model untuk tabel contacts
+├── bootstrap/                   -> file untuk booting framework
+├── config/                      -> konfigurasi (database, app, session, dll)
+├── database/
+│   └── migrations/              -> struktur tabel database
+├── public/                      -> folder yang diakses browser (index.php, asset)
+├── resources/
+│   └── views/                   -> file Blade (tampilan)
+│       ├── layouts/app.blade.php  -> layout utama (navbar + footer)
+│       ├── welcome.blade.php
+│       ├── about.blade.php
+│       ├── contact.blade.php
+│       └── hello.blade.php
+├── routes/
+│   └── web.php                  -> daftar route
+├── storage/                     -> log, cache, file upload
+├── vendor/                      -> library dari composer (tidak di-upload ke git)
+├── .env                         -> konfigurasi environment (tidak di-upload ke git)
+├── artisan                      -> CLI Laravel
+└── composer.json                -> daftar package
+```
+
+Alurnya (MVC): request masuk ke `routes/web.php` → diteruskan ke **Controller** → controller ambil data lewat **Model** kalau perlu → hasilnya dikirim ke **View** (Blade) untuk ditampilkan.
