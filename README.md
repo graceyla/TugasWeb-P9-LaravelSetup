@@ -9,7 +9,11 @@ Tugas Rutin 9 - Setup Laravel. Project ini isinya instalasi Laravel, koneksi ke 
 
 ## Screenshot
 
-Welcome page bawaan Laravel waktu pertama kali `php artisan serve`:
+`php artisan serve` berjalan:
+
+![Artisan serve](screenshots/00-artisan-serve.png)
+
+Welcome page bawaan Laravel waktu pertama kali dijalankan:
 
 ![Welcome default](screenshots/01-welcome-default.png)
 
